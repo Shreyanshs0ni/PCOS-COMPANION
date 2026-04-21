@@ -1,3 +1,4 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -18,11 +19,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 text-gray-900 antialiased min-h-screen`}>
+          <main className="max-w-md mx-auto bg-white min-h-screen shadow-sm relative flex flex-col">
+            {children}
+          </main>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
