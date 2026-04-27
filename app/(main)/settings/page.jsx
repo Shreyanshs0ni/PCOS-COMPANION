@@ -83,29 +83,17 @@ export default function SettingsPage() {
 
   return (
     <div className="px-5 pt-6 pb-4">
-      <header className="mb-5 animate-slide-down">
-        <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}>
-          Settings
-        </h1>
-        <p className="text-sm mt-0.5" style={{ color: "var(--text-tertiary)" }}>
-          Customize your experience
-        </p>
-      </header>
-
-      {/* Account */}
-      <SettingsGroup title="Account">
-        <div className="flex items-center gap-3 px-4 py-3.5">
-          <UserButton afterSignOutUrl="/sign-in" />
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold truncate" style={{ color: "var(--text-primary)" }}>
-              {profile?.name || "User"}
-            </p>
-            <p className="text-xs truncate" style={{ color: "var(--text-tertiary)" }}>
-              Manage your account
-            </p>
-          </div>
+      <header className="mb-5 animate-slide-down flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}>
+            Settings
+          </h1>
+          <p className="text-sm mt-0.5" style={{ color: "var(--text-tertiary)" }}>
+            Customize your experience
+          </p>
         </div>
-      </SettingsGroup>
+        <UserButton afterSignOutUrl="/sign-in" />
+      </header>
 
       {/* Health Profile */}
       <SettingsGroup title="Health Profile">

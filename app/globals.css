@@ -78,9 +78,20 @@
   --text-primary: #F0EEF6;
   --text-secondary: #A8A5B8;
   --text-tertiary: #706D80;
+  --text-inverse: #FFFFFF;
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.3);
+
+  /* Darken the pastel -50/-100 variants so cards aren't light in dark mode */
+  --primary-50: #2A2640;
+  --primary-100: #332F50;
+  --accent-50: #302430;
+  --accent-100: #3A2C38;
+  --mint-50: #1E2E28;
+  --mint-100: #243830;
+  --warm-50: #2E2820;
+  --warm-100: #383028;
 }
 
 @theme inline {
