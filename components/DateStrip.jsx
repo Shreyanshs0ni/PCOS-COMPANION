@@ -41,12 +41,17 @@ export default function DateStrip({ selectedDate, onDateSelect }) {
                 : "var(--bg-card)",
               border: active ? "none" : "1px solid var(--border-light)",
               color: active ? "var(--text-inverse)" : "var(--text-secondary)",
-              boxShadow: active ? "0 4px 14px rgba(139, 126, 200, 0.3)" : "var(--shadow-sm)",
+              boxShadow: active
+                ? "0 4px 14px rgba(139, 126, 200, 0.3)"
+                : "var(--shadow-sm)",
               minWidth: "52px",
               transform: active ? "scale(1.05)" : "scale(1)",
             }}
           >
-            <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ opacity: active ? 0.9 : 0.6 }}>
+            <span
+              className="text-[10px] font-semibold uppercase tracking-wider"
+              style={{ opacity: active ? 0.9 : 0.6 }}
+            >
               {date.toLocaleDateString("en-US", { weekday: "short" })}
             </span>
             <span className="text-lg font-bold">{date.getDate()}</span>

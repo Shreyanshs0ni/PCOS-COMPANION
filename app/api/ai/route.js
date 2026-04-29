@@ -26,11 +26,16 @@ function summarizeCheckins(entries) {
   };
 
   for (const entry of entries) {
-    if (entry.tracker_type === "sleep") summary.sleep.push(asNumber(entry.data?.hours));
-    if (entry.tracker_type === "water") summary.water.push(asNumber(entry.data?.glasses));
-    if (entry.tracker_type === "mood") summary.mood.push(asNumber(entry.data?.level));
-    if (entry.tracker_type === "stress") summary.stress.push(asNumber(entry.data?.level));
-    if (entry.tracker_type === "exercise") summary.exercise.push(asNumber(entry.data?.minutes));
+    if (entry.tracker_type === "sleep")
+      summary.sleep.push(asNumber(entry.data?.hours));
+    if (entry.tracker_type === "water")
+      summary.water.push(asNumber(entry.data?.glasses));
+    if (entry.tracker_type === "mood")
+      summary.mood.push(asNumber(entry.data?.level));
+    if (entry.tracker_type === "stress")
+      summary.stress.push(asNumber(entry.data?.level));
+    if (entry.tracker_type === "exercise")
+      summary.exercise.push(asNumber(entry.data?.minutes));
     if (entry.tracker_type === "symptoms") {
       for (const symptom of entry.data?.selected || []) {
         summary.symptoms[symptom] = (summary.symptoms[symptom] || 0) + 1;
@@ -73,7 +78,8 @@ function buildCacheKey(userId, timeframeDays, profile, trendSummary, cycles) {
 export async function POST(req) {
   try {
     const { userId } = await auth();
-    if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!userId)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     // Rate Limiting Check (max 10 calls per day) — from DB
     const today = new Date();
@@ -86,32 +92,45 @@ export async function POST(req) {
       .gte("created_at", today.toISOString());
 
     if ((count || 0) >= 10) {
-      return NextResponse.json({ error: "Daily limit reached (10/10). Try again tomorrow!" }, { status: 429 });
+      return NextResponse.json(
+        { error: "Daily limit reached (10/10). Try again tomorrow!" },
+        { status: 429 },
+      );
     }
 
     const body = await req.json().catch(() => ({}));
-    const timeframeDays = Math.min(Math.max(Number(body.timeframeDays) || 30, 7), 90);
+    const timeframeDays = Math.min(
+      Math.max(Number(body.timeframeDays) || 30, 7),
+      90,
+    );
     const since = new Date();
     since.setDate(since.getDate() - timeframeDays);
 
-    const [{ data: profile }, { data: checkIns }, { data: cycles }] = await Promise.all([
-      supabaseAdmin.from("profiles").select("*").eq("id", userId).single(),
-      supabaseAdmin
-        .from("check_in_entries")
-        .select("*")
-        .eq("user_id", userId)
-        .gte("created_at", since.toISOString())
-        .order("created_at", { ascending: false }),
-      supabaseAdmin
-        .from("cycles")
-        .select("*")
-        .eq("user_id", userId)
-        .order("start_date", { ascending: false })
-        .limit(6),
-    ]);
+    const [{ data: profile }, { data: checkIns }, { data: cycles }] =
+      await Promise.all([
+        supabaseAdmin.from("profiles").select("*").eq("id", userId).single(),
+        supabaseAdmin
+          .from("check_in_entries")
+          .select("*")
+          .eq("user_id", userId)
+          .gte("created_at", since.toISOString())
+          .order("created_at", { ascending: false }),
+        supabaseAdmin
+          .from("cycles")
+          .select("*")
+          .eq("user_id", userId)
+          .order("start_date", { ascending: false })
+          .limit(6),
+      ]);
 
     const trendSummary = summarizeCheckins(checkIns || []);
-    const cacheKey = buildCacheKey(userId, timeframeDays, profile, trendSummary, cycles || []);
+    const cacheKey = buildCacheKey(
+      userId,
+      timeframeDays,
+      profile,
+      trendSummary,
+      cycles || [],
+    );
 
     let cachedInsight = null;
     const { data: cacheData } = await supabaseAdmin
@@ -136,7 +155,9 @@ export async function POST(req) {
 
     const profileContext = {
       name: profile?.name || "Unknown",
-      age: profile?.birthday ? Math.floor((Date.now() - new Date(profile.birthday)) / 31557600000) : null,
+      age: profile?.birthday
+        ? Math.floor((Date.now() - new Date(profile.birthday)) / 31557600000)
+        : null,
       pcosDiagnosed: !!profile?.pcos_diagnosed,
       dietType: profile?.diet_type || null,
       activityLevel: profile?.physical_activity_level || null,
@@ -194,10 +215,14 @@ ${JSON.stringify((checkIns || []).slice(0, 60))}
     const advice = structured
       ? [
           "Patterns found:",
-          ...(structured.patternsFound || []).map((item, i) => `${i + 1}. ${item}`),
+          ...(structured.patternsFound || []).map(
+            (item, i) => `${i + 1}. ${item}`,
+          ),
           "",
           "Recommended actions:",
-          ...(structured.recommendedActions || []).map((item, i) => `${i + 1}. ${item}`),
+          ...(structured.recommendedActions || []).map(
+            (item, i) => `${i + 1}. ${item}`,
+          ),
         ].join("\n")
       : raw;
 
@@ -210,7 +235,9 @@ ${JSON.stringify((checkIns || []).slice(0, 60))}
       cache_key: cacheKey,
       timeframe_days: timeframeDays,
     };
-    const { error: insertError } = await supabaseAdmin.from("ai_insights").insert(insertPayload);
+    const { error: insertError } = await supabaseAdmin
+      .from("ai_insights")
+      .insert(insertPayload);
     if (insertError) {
       await supabaseAdmin.from("ai_insights").insert({
         user_id: userId,
@@ -227,6 +254,9 @@ ${JSON.stringify((checkIns || []).slice(0, 60))}
     });
   } catch (error) {
     console.error("AI Error:", error);
-    return NextResponse.json({ error: "Failed to get AI insight." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to get AI insight." },
+      { status: 500 },
+    );
   }
 }

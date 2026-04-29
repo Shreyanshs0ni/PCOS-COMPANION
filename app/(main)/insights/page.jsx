@@ -18,7 +18,11 @@ export default function InsightsPage() {
     async function load() {
       setLoading(true);
       try {
-        const [{ getInsightsData }, { getLatestAIInsight }, { getAICallsToday }] = await Promise.all([
+        const [
+          { getInsightsData },
+          { getLatestAIInsight },
+          { getAICallsToday },
+        ] = await Promise.all([
           import("@/app/actions/insights"),
           import("@/app/actions/insights"),
           import("@/app/actions/insights"),
@@ -64,17 +68,23 @@ export default function InsightsPage() {
     }
   };
 
-  const hasData = data && (
-    data.moodData.length > 0 ||
-    data.sleepData.length > 0 ||
-    data.waterData.length > 0 ||
-    data.symptomFrequency.length > 0
-  );
+  const hasData =
+    data &&
+    (data.moodData.length > 0 ||
+      data.sleepData.length > 0 ||
+      data.waterData.length > 0 ||
+      data.symptomFrequency.length > 0);
 
   return (
     <div className="px-5 pt-6 pb-4">
       <header className="mb-5 animate-slide-down">
-        <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}>
+        <h1
+          className="text-2xl font-bold"
+          style={{
+            fontFamily: "var(--font-display)",
+            color: "var(--text-primary)",
+          }}
+        >
           Insights
         </h1>
         <p className="text-sm mt-0.5" style={{ color: "var(--text-tertiary)" }}>
@@ -116,7 +126,10 @@ export default function InsightsPage() {
               </span>
             )}
           </button>
-          <span className="text-[10px] font-semibold" style={{ color: "var(--text-tertiary)" }}>
+          <span
+            className="text-[10px] font-semibold"
+            style={{ color: "var(--text-tertiary)" }}
+          >
             {remaining}/10 remaining today
           </span>
         </div>
@@ -175,25 +188,38 @@ export default function InsightsPage() {
 
           {data.symptomFrequency.length > 0 && (
             <div className="card p-4 min-w-0 overflow-hidden">
-              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-tertiary)" }}>
+              <p
+                className="text-xs font-semibold uppercase tracking-wider mb-3"
+                style={{ color: "var(--text-tertiary)" }}
+              >
                 Top Symptoms
               </p>
               <div className="flex flex-col gap-2">
                 {data.symptomFrequency.map((s) => (
                   <div key={s.name} className="flex items-center gap-3">
-                    <span className="text-sm flex-1 font-medium" style={{ color: "var(--text-primary)" }}>
+                    <span
+                      className="text-sm flex-1 font-medium"
+                      style={{ color: "var(--text-primary)" }}
+                    >
                       {s.name}
                     </span>
-                    <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "var(--bg-input)" }}>
+                    <div
+                      className="flex-1 h-2 rounded-full overflow-hidden"
+                      style={{ background: "var(--bg-input)" }}
+                    >
                       <div
                         className="h-full rounded-full"
                         style={{
                           width: `${(s.count / (data.symptomFrequency[0]?.count || 1)) * 100}%`,
-                          background: "linear-gradient(90deg, var(--accent), var(--accent-dark))",
+                          background:
+                            "linear-gradient(90deg, var(--accent), var(--accent-dark))",
                         }}
                       />
                     </div>
-                    <span className="text-xs font-bold w-6 text-right" style={{ color: "var(--text-secondary)" }}>
+                    <span
+                      className="text-xs font-bold w-6 text-right"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
                       {s.count}
                     </span>
                   </div>

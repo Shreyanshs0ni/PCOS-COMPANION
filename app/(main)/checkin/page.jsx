@@ -30,29 +30,34 @@ export default function CheckinPage() {
   useEffect(() => {
     async function load() {
       try {
-        const [{ getTodayCheckIns }, { getTrackerSettings }] = await Promise.all([
-          import("@/app/actions/checkin"),
-          import("@/app/actions/tracker"),
-        ]);
+        const [{ getTodayCheckIns }, { getTrackerSettings }] =
+          await Promise.all([
+            import("@/app/actions/checkin"),
+            import("@/app/actions/tracker"),
+          ]);
         const [checkins, settings] = await Promise.all([
           getTodayCheckIns(),
           getTrackerSettings(),
         ]);
         setTodayCheckins(checkins || []);
-        setEnabledTrackers(settings?.filter((s) => s.enabled).map((s) => s.tracker_type) || TRACKERS.map(t => t.type));
+        setEnabledTrackers(
+          settings?.filter((s) => s.enabled).map((s) => s.tracker_type) ||
+            TRACKERS.map((t) => t.type),
+        );
       } catch (err) {
         console.error(err);
-        setEnabledTrackers(TRACKERS.map(t => t.type));
+        setEnabledTrackers(TRACKERS.map((t) => t.type));
       }
     }
     load();
   }, []);
 
   const visibleTrackers = TRACKERS.filter(
-    (t) => !enabledTrackers || enabledTrackers.includes(t.type)
+    (t) => !enabledTrackers || enabledTrackers.includes(t.type),
   );
 
-  const isLoggedToday = (type) => todayCheckins.some((c) => c.tracker_type === type);
+  const isLoggedToday = (type) =>
+    todayCheckins.some((c) => c.tracker_type === type);
 
   const handleSave = async () => {
     if (!activeTracker || !trackerData[activeTracker]) return;
@@ -83,7 +88,13 @@ export default function CheckinPage() {
   return (
     <div className="px-5 pt-6 pb-4">
       <header className="mb-5 animate-slide-down">
-        <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}>
+        <h1
+          className="text-2xl font-bold"
+          style={{
+            fontFamily: "var(--font-display)",
+            color: "var(--text-primary)",
+          }}
+        >
           Check-in
         </h1>
         <p className="text-sm mt-0.5" style={{ color: "var(--text-tertiary)" }}>
@@ -124,7 +135,13 @@ export default function CheckinPage() {
 
       {/* Tracker Modals */}
       {activeTracker === "mood" && (
-        <TrackerModal title="Mood" icon="😊" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Mood"
+          icon="😊"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <MoodSelector
             value={trackerData.mood?.level}
             onChange={(mood) => setTrackerData((p) => ({ ...p, mood }))}
@@ -133,7 +150,13 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "symptoms" && (
-        <TrackerModal title="Symptoms" icon="🩺" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Symptoms"
+          icon="🩺"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <SymptomChips
             selected={trackerData.symptoms?.selected || []}
             onChange={(selected) => updateData("selected", selected)}
@@ -142,7 +165,13 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "sleep" && (
-        <TrackerModal title="Sleep" icon="😴" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Sleep"
+          icon="😴"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div>
             <label className="label">Hours slept</label>
             <input
@@ -171,24 +200,43 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "water" && (
-        <TrackerModal title="Water" icon="💧" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Water"
+          icon="💧"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div>
             <label className="label">Glasses of water</label>
             <div className="flex items-center gap-4 justify-center my-4">
               <button
                 className="btn btn-ghost w-12 h-12 rounded-full text-xl"
                 style={{ border: "1px solid var(--border)" }}
-                onClick={() => updateData("glasses", Math.max(0, (trackerData.water?.glasses || 0) - 1))}
+                onClick={() =>
+                  updateData(
+                    "glasses",
+                    Math.max(0, (trackerData.water?.glasses || 0) - 1),
+                  )
+                }
               >
                 −
               </button>
-              <span className="text-4xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--primary)" }}>
+              <span
+                className="text-4xl font-bold"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  color: "var(--primary)",
+                }}
+              >
                 {trackerData.water?.glasses || 0}
               </span>
               <button
                 className="btn btn-ghost w-12 h-12 rounded-full text-xl"
                 style={{ border: "1px solid var(--border)" }}
-                onClick={() => updateData("glasses", (trackerData.water?.glasses || 0) + 1)}
+                onClick={() =>
+                  updateData("glasses", (trackerData.water?.glasses || 0) + 1)
+                }
               >
                 +
               </button>
@@ -209,7 +257,13 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "exercise" && (
-        <TrackerModal title="Exercise" icon="🏃‍♀️" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Exercise"
+          icon="🏃‍♀️"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div className="flex flex-col gap-4">
             <div>
               <label className="label">Duration (minutes)</label>
@@ -218,13 +272,24 @@ export default function CheckinPage() {
                 className="input"
                 placeholder="e.g. 30"
                 value={trackerData.exercise?.minutes || ""}
-                onChange={(e) => updateData("minutes", parseInt(e.target.value))}
+                onChange={(e) =>
+                  updateData("minutes", parseInt(e.target.value))
+                }
               />
             </div>
             <div>
               <label className="label">Type</label>
               <div className="flex flex-wrap gap-2">
-                {["Walking", "Running", "Yoga", "Strength", "Swimming", "Cycling", "Dancing", "Other"].map((t) => (
+                {[
+                  "Walking",
+                  "Running",
+                  "Yoga",
+                  "Strength",
+                  "Swimming",
+                  "Cycling",
+                  "Dancing",
+                  "Other",
+                ].map((t) => (
                   <button
                     key={t}
                     className={`chip ${trackerData.exercise?.type === t ? "active" : ""}`}
@@ -240,7 +305,13 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "medications" && (
-        <TrackerModal title="Medications" icon="💊" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Medications"
+          icon="💊"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div className="flex flex-col gap-4">
             <div>
               <label className="label">Medication name</label>
@@ -271,7 +342,13 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "journal" && (
-        <TrackerModal title="Journal" icon="📝" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Journal"
+          icon="📝"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div>
             <label className="label">How are you feeling?</label>
             <textarea
@@ -287,11 +364,23 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "nutrition" && (
-        <TrackerModal title="Nutrition" icon="🥗" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Nutrition"
+          icon="🥗"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div>
             <label className="label">How was your eating today?</label>
             <div className="flex flex-wrap gap-2">
-              {["Healthy", "Balanced", "Moderate", "Heavy", "Skipped meals"].map((t) => (
+              {[
+                "Healthy",
+                "Balanced",
+                "Moderate",
+                "Heavy",
+                "Skipped meals",
+              ].map((t) => (
                 <button
                   key={t}
                   className={`chip ${trackerData.nutrition?.type === t ? "active" : ""}`}
@@ -306,7 +395,13 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "weight" && (
-        <TrackerModal title="Weight" icon="⚖️" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Weight"
+          icon="⚖️"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div>
             <label className="label">Weight (kg)</label>
             <input
@@ -322,7 +417,13 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "stress" && (
-        <TrackerModal title="Stress" icon="🧠" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Stress"
+          icon="🧠"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div>
             <label className="label">Stress level</label>
             <div className="flex justify-between gap-2 my-2">
@@ -331,21 +432,33 @@ export default function CheckinPage() {
                   key={level}
                   className="flex flex-col items-center gap-1 flex-1 py-3 rounded-2xl transition-all duration-200"
                   style={{
-                    background: trackerData.stress?.level === level ? "var(--accent-50)" : "transparent",
-                    border: trackerData.stress?.level === level ? "2px solid var(--accent)" : "2px solid transparent",
+                    background:
+                      trackerData.stress?.level === level
+                        ? "var(--accent-50)"
+                        : "transparent",
+                    border:
+                      trackerData.stress?.level === level
+                        ? "2px solid var(--accent)"
+                        : "2px solid transparent",
                   }}
                   onClick={() => updateData("level", level)}
                 >
                   <span className="text-2xl">
                     {["😌", "🙂", "😐", "😰", "🤯"][level - 1]}
                   </span>
-                  <span className="text-[10px] font-semibold" style={{ color: "var(--text-tertiary)" }}>
+                  <span
+                    className="text-[10px] font-semibold"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
                     {level}
                   </span>
                 </button>
               ))}
             </div>
-            <div className="flex justify-between text-[10px] px-2" style={{ color: "var(--text-tertiary)" }}>
+            <div
+              className="flex justify-between text-[10px] px-2"
+              style={{ color: "var(--text-tertiary)" }}
+            >
               <span>Calm</span>
               <span>Very stressed</span>
             </div>
@@ -354,7 +467,13 @@ export default function CheckinPage() {
       )}
 
       {activeTracker === "cycle" && (
-        <TrackerModal title="Cycle" icon="🔴" onClose={() => setActiveTracker(null)} onSave={handleSave} saving={saving}>
+        <TrackerModal
+          title="Cycle"
+          icon="🔴"
+          onClose={() => setActiveTracker(null)}
+          onSave={handleSave}
+          saving={saving}
+        >
           <div className="flex flex-col gap-4">
             <div>
               <label className="label">Period status</label>

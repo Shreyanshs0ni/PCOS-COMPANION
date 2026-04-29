@@ -3,10 +3,12 @@
 ## 1. Overview
 
 ### 1.1 Product Vision
+
 PCOS Companion is a **mobile-first AI health companion** designed specifically for women diagnosed with PCOS.  
 It helps users track daily health data and provides **personalized, friendly AI-driven guidance**.
 
 ### 1.2 MVP Goal
+
 > Deliver a system where users log daily data and receive **context-aware AI coaching based on full history**.
 
 ---
@@ -31,11 +33,13 @@ It helps users track daily health data and provides **personalized, friendly AI-
 ## 4.1 Authentication (Clerk)
 
 ### Features
+
 - Email/password login
 - Google OAuth login
 - Session persistence
 
 ### Flow
+
 - **Sign Up → Onboarding**
 - **Sign In → Dashboard**
 
@@ -44,15 +48,18 @@ It helps users track daily health data and provides **personalized, friendly AI-
 ## 4.2 Onboarding
 
 ### Purpose
+
 Collect initial user data for personalization.
 
 ### Fields
+
 - Name
 - Age
 - Weight
 - PCOS confirmation (boolean)
 
 ### Requirements
+
 - Mandatory after signup
 - Stored in database (linked with Clerk user ID)
 
@@ -61,9 +68,11 @@ Collect initial user data for personalization.
 ## 4.3 Daily Logging System
 
 ### Constraint
+
 - One log per user per day
 
 ### Inputs
+
 - Sleep (hours)
 - Water intake (liters)
 - Exercise (minutes)
@@ -71,6 +80,7 @@ Collect initial user data for personalization.
 - Optional notes
 
 ### Requirements
+
 - Overwrite/update same-day log
 - Timestamped
 - Linked to user ID
@@ -80,9 +90,11 @@ Collect initial user data for personalization.
 ## 4.4 Symptoms System
 
 ### Type
+
 Fixed predefined list
 
 ### Example
+
 - Acne
 - Fatigue
 - Mood swings
@@ -90,6 +102,7 @@ Fixed predefined list
 - Irregular periods
 
 ### Input
+
 - Symptom type
 - Severity (1–5)
 
@@ -98,14 +111,17 @@ Fixed predefined list
 ## 4.5 Cycle Tracking + Ovulation
 
 ### Inputs
+
 - Cycle start date
 - Cycle end date
 
 ### Features
+
 - Store history
 - Predict ovulation window (basic logic)
 
 ### Requirements
+
 - Use average cycle length
 - Display next predicted ovulation
 
@@ -114,10 +130,12 @@ Fixed predefined list
 ## 4.6 Dashboard
 
 ### Content
+
 - Today’s log summary
 - AI-generated advice
 
 ### Requirements
+
 - Mobile-first layout
 - Minimal UI
 - Fast load
@@ -127,13 +145,16 @@ Fixed predefined list
 ## 4.7 AI Recommendation System (OpenAI)
 
 ### Type
+
 Hybrid system:
+
 - Data preprocessing (rules)
 - AI-generated explanation
 
 ---
 
 ### Input to AI
+
 - Latest log
 - Full historical data
 - Cycle data
@@ -142,12 +163,14 @@ Hybrid system:
 ---
 
 ### Output
+
 - Short actionable tips
 - Friendly explanation
 
 ---
 
 ### Behavior
+
 - Friendly coach tone
 - Non-medical guidance
 - Encouraging and supportive
@@ -155,6 +178,7 @@ Hybrid system:
 ---
 
 ### Constraints
+
 - Max 10 API calls per user per day
 - Cached responses allowed
 
@@ -163,9 +187,11 @@ Hybrid system:
 ## 4.8 Navigation
 
 ### Style
+
 Bottom tab navigation
 
 ### Tabs
+
 - Dashboard
 - Log
 - Cycle
@@ -175,12 +201,14 @@ Bottom tab navigation
 ## 5. Non-Functional Requirements
 
 ## 5.1 Performance
+
 - Page load < 2s
 - AI response < 5s
 
 ---
 
 ## 5.2 Usability
+
 - Logging time < 30 seconds
 - Minimal inputs
 - Mobile-first UI
@@ -188,6 +216,7 @@ Bottom tab navigation
 ---
 
 ## 5.3 Security
+
 - Clerk authentication
 - Supabase Row Level Security
 - API routes protect OpenAI key
@@ -195,12 +224,14 @@ Bottom tab navigation
 ---
 
 ## 5.4 Reliability
+
 - No duplicate logs per day
 - Data consistency across sessions
 
 ---
 
 ## 5.5 Scalability
+
 - Modular DB schema
 - Extendable AI system
 

@@ -1,6 +1,13 @@
 "use client";
 
-export default function TrackerModal({ title, icon, children, onClose, onSave, saving }) {
+export default function TrackerModal({
+  title,
+  icon,
+  children,
+  onClose,
+  onSave,
+  saving,
+}) {
   return (
     <>
       <div className="overlay" onClick={onClose} />
@@ -11,14 +18,24 @@ export default function TrackerModal({ title, icon, children, onClose, onSave, s
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-3">
               <span className="text-2xl">{icon}</span>
-              <h2 className="text-lg font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}>
+              <h2
+                className="text-lg font-bold"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  color: "var(--text-primary)",
+                }}
+              >
                 {title}
               </h2>
             </div>
             <button
               onClick={onClose}
               className="w-8 h-8 rounded-full flex items-center justify-center text-sm"
-              style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)", color: "var(--text-tertiary)" }}
+              style={{
+                background: "var(--glass-bg)",
+                border: "1px solid var(--glass-border)",
+                color: "var(--text-tertiary)",
+              }}
             >
               ✕
             </button>

@@ -81,7 +81,9 @@ export async function getInsightsData(days = 7) {
 
   const average = (arr) => {
     if (!arr.length) return null;
-    return Number((arr.reduce((sum, item) => sum + item, 0) / arr.length).toFixed(1));
+    return Number(
+      (arr.reduce((sum, item) => sum + item, 0) / arr.length).toFixed(1),
+    );
   };
 
   const moodData = aggregatedDays

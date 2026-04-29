@@ -7,14 +7,12 @@ export async function submitCheckIn(trackerType, data, notes = null) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
-  const { error } = await supabaseAdmin
-    .from("check_in_entries")
-    .insert({
-      user_id: userId,
-      tracker_type: trackerType,
-      data,
-      notes,
-    });
+  const { error } = await supabaseAdmin.from("check_in_entries").insert({
+    user_id: userId,
+    tracker_type: trackerType,
+    data,
+    notes,
+  });
 
   if (error) throw new Error(error.message);
 

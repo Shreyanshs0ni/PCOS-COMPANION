@@ -1,10 +1,22 @@
 "use client";
 
 const PCOS_SYMPTOMS = [
-  "Cramps", "Bloating", "Acne", "Fatigue", "Headache",
-  "Mood Swings", "Hair Loss", "Weight Gain", "Excess Hair",
-  "Anxiety", "Insomnia", "Back Pain", "Breast Tenderness",
-  "Nausea", "Cravings", "Hot Flashes",
+  "Cramps",
+  "Bloating",
+  "Acne",
+  "Fatigue",
+  "Headache",
+  "Mood Swings",
+  "Hair Loss",
+  "Weight Gain",
+  "Excess Hair",
+  "Anxiety",
+  "Insomnia",
+  "Back Pain",
+  "Breast Tenderness",
+  "Nausea",
+  "Cravings",
+  "Hot Flashes",
 ];
 
 export default function SymptomChips({ selected = [], onChange }) {

@@ -8,17 +8,17 @@ export async function submitCycle(startDate, endDate) {
   if (!userId) throw new Error("Unauthorized");
 
   const cycleLength = endDate
-    ? Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))
+    ? Math.ceil(
+        (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24),
+      )
     : null;
 
-  const { error } = await supabaseAdmin
-    .from("cycles")
-    .insert({
-      user_id: userId,
-      start_date: startDate,
-      end_date: endDate || null,
-      cycle_length: cycleLength,
-    });
+  const { error } = await supabaseAdmin.from("cycles").insert({
+    user_id: userId,
+    start_date: startDate,
+    end_date: endDate || null,
+    cycle_length: cycleLength,
+  });
 
   if (error) throw new Error(error.message);
   return { success: true };

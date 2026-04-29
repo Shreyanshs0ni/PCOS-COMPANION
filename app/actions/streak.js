@@ -15,5 +15,7 @@ export async function getStreak() {
 
   if (error && error.code !== "PGRST116") throw new Error(error.message);
 
-  return data || { current_streak: 0, longest_streak: 0, last_check_in_date: null };
+  return (
+    data || { current_streak: 0, longest_streak: 0, last_check_in_date: null }
+  );
 }

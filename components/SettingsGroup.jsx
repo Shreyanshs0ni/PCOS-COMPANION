@@ -6,18 +6,33 @@ export default function SettingsGroup({ title, children }) {
   return (
     <div className="mb-5 animate-slide-up">
       {title && (
-        <h3 className="text-xs font-bold uppercase tracking-wider px-1 mb-2" style={{ color: "var(--text-tertiary)" }}>
+        <h3
+          className="text-xs font-bold uppercase tracking-wider px-1 mb-2"
+          style={{ color: "var(--text-tertiary)" }}
+        >
           {title}
         </h3>
       )}
-      <div className="card overflow-hidden divide-y" style={{ borderColor: "var(--glass-border)" }}>
+      <div
+        className="card overflow-hidden divide-y"
+        style={{ borderColor: "var(--glass-border)" }}
+      >
         {children}
       </div>
     </div>
   );
 }
 
-export function SettingsItem({ icon, label, value, onClick, danger, toggle, checked, onToggle }) {
+export function SettingsItem({
+  icon,
+  label,
+  value,
+  onClick,
+  danger,
+  toggle,
+  checked,
+  onToggle,
+}) {
   if (toggle) {
     return (
       <div
@@ -26,12 +41,20 @@ export function SettingsItem({ icon, label, value, onClick, danger, toggle, chec
       >
         <div className="flex items-center gap-3">
           {icon && <span className="text-lg">{icon}</span>}
-          <span className="text-sm font-medium" style={{ color: danger ? "#E55C5C" : "var(--text-primary)" }}>
+          <span
+            className="text-sm font-medium"
+            style={{ color: danger ? "#E55C5C" : "var(--text-primary)" }}
+          >
             {label}
           </span>
         </div>
         <label className="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" className="sr-only peer" checked={checked} onChange={(e) => onToggle?.(e.target.checked)} />
+          <input
+            type="checkbox"
+            className="sr-only peer"
+            checked={checked}
+            onChange={(e) => onToggle?.(e.target.checked)}
+          />
           <div
             className="w-10 h-6 rounded-full peer-checked:after:translate-x-4 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-200"
             style={{
@@ -56,13 +79,18 @@ export function SettingsItem({ icon, label, value, onClick, danger, toggle, chec
     >
       <div className="flex items-center gap-3">
         {icon && <span className="text-lg">{icon}</span>}
-        <span className="text-sm font-medium" style={{ color: danger ? "#E55C5C" : "var(--text-primary)" }}>
+        <span
+          className="text-sm font-medium"
+          style={{ color: danger ? "#E55C5C" : "var(--text-primary)" }}
+        >
           {label}
         </span>
       </div>
       <div className="flex items-center gap-1">
         {value && (
-          <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>{value}</span>
+          <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+            {value}
+          </span>
         )}
         <ChevronRight size={16} style={{ color: "var(--text-tertiary)" }} />
       </div>

@@ -1,11 +1,33 @@
 "use client";
 
-export default function TrackerCard({ icon, label, value, color = "primary", onClick }) {
+export default function TrackerCard({
+  icon,
+  label,
+  value,
+  color = "primary",
+  onClick,
+}) {
   const colorMap = {
-    primary: { bg: "var(--primary-50)", border: "var(--primary-100)", accent: "var(--primary)" },
-    accent: { bg: "var(--accent-50)", border: "var(--accent-100)", accent: "var(--accent)" },
-    mint: { bg: "var(--mint-50)", border: "var(--mint-100)", accent: "var(--mint)" },
-    warm: { bg: "var(--warm-50)", border: "var(--warm-100)", accent: "var(--warm)" },
+    primary: {
+      bg: "var(--primary-50)",
+      border: "var(--primary-100)",
+      accent: "var(--primary)",
+    },
+    accent: {
+      bg: "var(--accent-50)",
+      border: "var(--accent-100)",
+      accent: "var(--accent)",
+    },
+    mint: {
+      bg: "var(--mint-50)",
+      border: "var(--mint-100)",
+      accent: "var(--mint)",
+    },
+    warm: {
+      bg: "var(--warm-50)",
+      border: "var(--warm-100)",
+      accent: "var(--warm)",
+    },
   };
 
   const c = colorMap[color] || colorMap.primary;
@@ -26,11 +48,17 @@ export default function TrackerCard({ icon, label, value, color = "primary", onC
         {icon}
       </div>
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-tertiary)" }}>
+        <p
+          className="text-xs font-semibold uppercase tracking-wider"
+          style={{ color: "var(--text-tertiary)" }}
+        >
           {label}
         </p>
         {value !== undefined && value !== null && (
-          <p className="text-base font-bold mt-0.5" style={{ color: "var(--text-primary)" }}>
+          <p
+            className="text-base font-bold mt-0.5"
+            style={{ color: "var(--text-primary)" }}
+          >
             {value}
           </p>
         )}

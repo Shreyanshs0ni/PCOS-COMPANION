@@ -4,15 +4,31 @@ import { useState, useEffect } from "react";
 import EmptyState from "@/components/EmptyState";
 
 const TRACKER_ICONS = {
-  mood: "😊", sleep: "😴", water: "💧", exercise: "🏃‍♀️",
-  symptoms: "🩺", medications: "💊", journal: "📝", nutrition: "🥗",
-  weight: "⚖️", stress: "🧠", cycle: "🔴",
+  mood: "😊",
+  sleep: "😴",
+  water: "💧",
+  exercise: "🏃‍♀️",
+  symptoms: "🩺",
+  medications: "💊",
+  journal: "📝",
+  nutrition: "🥗",
+  weight: "⚖️",
+  stress: "🧠",
+  cycle: "🔴",
 };
 
 const TRACKER_LABELS = {
-  mood: "Mood", sleep: "Sleep", water: "Water", exercise: "Exercise",
-  symptoms: "Symptoms", medications: "Medications", journal: "Journal",
-  nutrition: "Nutrition", weight: "Weight", stress: "Stress", cycle: "Cycle",
+  mood: "Mood",
+  sleep: "Sleep",
+  water: "Water",
+  exercise: "Exercise",
+  symptoms: "Symptoms",
+  medications: "Medications",
+  journal: "Journal",
+  nutrition: "Nutrition",
+  weight: "Weight",
+  stress: "Stress",
+  cycle: "Cycle",
 };
 
 const FILTER_OPTIONS = [
@@ -58,25 +74,46 @@ export default function TimelinePage() {
   const formatEntryValue = (entry) => {
     const d = entry.data;
     switch (entry.tracker_type) {
-      case "mood": return d.label || `Level ${d.level}`;
-      case "sleep": return `${d.hours} hours`;
-      case "water": return `${d.glasses} glasses`;
-      case "exercise": return `${d.minutes} min${d.type ? ` — ${d.type}` : ""}`;
-      case "symptoms": return (d.selected || []).join(", ");
-      case "medications": return d.name || "Logged";
-      case "journal": return (d.text || "").substring(0, 60) + ((d.text || "").length > 60 ? "..." : "");
-      case "nutrition": return d.type || "Logged";
-      case "weight": return `${d.value} kg`;
-      case "stress": return `Level ${d.level}/5`;
-      case "cycle": return d.status || "Logged";
-      default: return "Logged";
+      case "mood":
+        return d.label || `Level ${d.level}`;
+      case "sleep":
+        return `${d.hours} hours`;
+      case "water":
+        return `${d.glasses} glasses`;
+      case "exercise":
+        return `${d.minutes} min${d.type ? ` — ${d.type}` : ""}`;
+      case "symptoms":
+        return (d.selected || []).join(", ");
+      case "medications":
+        return d.name || "Logged";
+      case "journal":
+        return (
+          (d.text || "").substring(0, 60) +
+          ((d.text || "").length > 60 ? "..." : "")
+        );
+      case "nutrition":
+        return d.type || "Logged";
+      case "weight":
+        return `${d.value} kg`;
+      case "stress":
+        return `Level ${d.level}/5`;
+      case "cycle":
+        return d.status || "Logged";
+      default:
+        return "Logged";
     }
   };
 
   return (
     <div className="px-5 pt-6 pb-4">
       <header className="mb-5 animate-slide-down">
-        <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}>
+        <h1
+          className="text-2xl font-bold"
+          style={{
+            fontFamily: "var(--font-display)",
+            color: "var(--text-primary)",
+          }}
+        >
           Timeline
         </h1>
         <p className="text-sm mt-0.5" style={{ color: "var(--text-tertiary)" }}>
@@ -130,7 +167,10 @@ export default function TimelinePage() {
         <div className="flex flex-col gap-5 stagger-children">
           {Object.entries(grouped).map(([date, items]) => (
             <div key={date}>
-              <h3 className="text-xs font-bold uppercase tracking-wider mb-2 px-1" style={{ color: "var(--text-tertiary)" }}>
+              <h3
+                className="text-xs font-bold uppercase tracking-wider mb-2 px-1"
+                style={{ color: "var(--text-tertiary)" }}
+              >
                 {date}
               </h3>
               <div className="flex flex-col gap-2">
@@ -143,15 +183,28 @@ export default function TimelinePage() {
                       {TRACKER_ICONS[entry.tracker_type] || "📋"}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                        {TRACKER_LABELS[entry.tracker_type] || entry.tracker_type}
+                      <p
+                        className="text-sm font-semibold"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        {TRACKER_LABELS[entry.tracker_type] ||
+                          entry.tracker_type}
                       </p>
-                      <p className="text-xs truncate" style={{ color: "var(--text-secondary)" }}>
+                      <p
+                        className="text-xs truncate"
+                        style={{ color: "var(--text-secondary)" }}
+                      >
                         {formatEntryValue(entry)}
                       </p>
                     </div>
-                    <span className="text-[10px] flex-shrink-0" style={{ color: "var(--text-tertiary)" }}>
-                      {new Date(entry.created_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+                    <span
+                      className="text-[10px] flex-shrink-0"
+                      style={{ color: "var(--text-tertiary)" }}
+                    >
+                      {new Date(entry.created_at).toLocaleTimeString("en-US", {
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
                     </span>
                   </div>
                 ))}

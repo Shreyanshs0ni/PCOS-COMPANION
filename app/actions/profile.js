@@ -13,7 +13,7 @@ export async function getProfile() {
     .eq("id", userId)
     .single();
 
-  if (error && error.code !== 'PGRST116') {
+  if (error && error.code !== "PGRST116") {
     throw new Error(error.message);
   }
 
@@ -58,16 +58,17 @@ export async function saveProfile(formData) {
     marital_status: formData.marital_status || null,
     diet_type: formData.diet_type || null,
     physical_activity_level: formData.physical_activity_level || null,
-    pcos_diagnosed: formData.pcos_diagnosed === true || formData.pcos_diagnosed === "true",
+    pcos_diagnosed:
+      formData.pcos_diagnosed === true || formData.pcos_diagnosed === "true",
     cycle_regularity: formData.cycle_regularity || null,
     main_symptoms: formData.main_symptoms || [],
-    onboarding_complete: formData.onboarding_complete === true || formData.onboarding_complete === "true",
+    onboarding_complete:
+      formData.onboarding_complete === true ||
+      formData.onboarding_complete === "true",
     updated_at: new Date().toISOString(),
   };
 
-  const { error } = await supabaseAdmin
-    .from("profiles")
-    .upsert(profileData);
+  const { error } = await supabaseAdmin.from("profiles").upsert(profileData);
 
   if (error) throw new Error(error.message);
 

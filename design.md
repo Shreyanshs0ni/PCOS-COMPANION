@@ -11,19 +11,18 @@
 
 ## 2. Tech Stack
 
-| Layer | Technology |
-|------|----------|
-| Frontend | Next.js (App Router) |
-| Styling | Tailwind CSS |
-| Auth | Clerk |
-| Database | Supabase (PostgreSQL) |
-| AI | OpenAI API |
-| Backend Logic | Next.js API Routes |
+| Layer         | Technology            |
+| ------------- | --------------------- |
+| Frontend      | Next.js (App Router)  |
+| Styling       | Tailwind CSS          |
+| Auth          | Clerk                 |
+| Database      | Supabase (PostgreSQL) |
+| AI            | OpenAI API            |
+| Backend Logic | Next.js API Routes    |
 
 ---
 
 ## 3. Architecture
-
 
 Client (Next.js)
 ↓
@@ -33,8 +32,8 @@ OpenAI API
 ↓
 Supabase Database
 
-
 ### Notes
+
 - OpenAI calls only via API routes (secure)
 - Clerk manages user identity
 - Supabase handles data + RLS
@@ -42,7 +41,6 @@ Supabase Database
 ---
 
 ## 4. Folder Structure
-
 
 app/
 ├── (auth)/
@@ -67,12 +65,12 @@ utils/
 ├── aiPrompt.js
 ├── ovulation.js
 
-
 ---
 
 ## 5. Database Design
 
 ### Profiles
+
 - id (Clerk user ID)
 - name
 - age
@@ -82,6 +80,7 @@ utils/
 ---
 
 ### Logs
+
 - id
 - user_id
 - sleep
@@ -92,6 +91,7 @@ utils/
 ---
 
 ### Symptoms
+
 - id
 - user_id
 - type
@@ -101,6 +101,7 @@ utils/
 ---
 
 ### Cycles
+
 - id
 - user_id
 - start_date
@@ -123,7 +124,6 @@ utils/
 
 Example:
 
-
 User has PCOS.
 Here is their recent health data:
 
@@ -143,24 +143,24 @@ Friendly explanation
 
 Tone: supportive coach, not medical
 
-
 ---
 
 ## 6.3 API Route
 
-
 POST /api/ai
 
-
 ### Input
+
 - userId
 
 ### Process
+
 - Fetch logs + cycles + symptoms
 - Build prompt
 - Call OpenAI
 
 ### Output
+
 - Advice text
 
 ---
@@ -176,18 +176,17 @@ POST /api/ai
 
 ## 7.1 Layout
 
-
 max-w-md
 mx-auto
 min-h-screen
 p-4
-
 
 ---
 
 ## 7.2 Navigation
 
 Bottom Tabs:
+
 - Dashboard
 - Log
 - Cycle
@@ -197,6 +196,7 @@ Bottom Tabs:
 ## 7.3 Screens
 
 ### Dashboard
+
 - Greeting
 - Today’s data
 - AI advice card
@@ -204,6 +204,7 @@ Bottom Tabs:
 ---
 
 ### Log Screen
+
 - Sleep input
 - Water input
 - Exercise input
@@ -212,6 +213,7 @@ Bottom Tabs:
 ---
 
 ### Cycle Screen
+
 - Date pickers
 - Predicted ovulation display
 
@@ -221,9 +223,7 @@ Bottom Tabs:
 
 Simple formula:
 
-
 Ovulation Day = Cycle Length - 14
-
 
 Use average of past cycles.
 
