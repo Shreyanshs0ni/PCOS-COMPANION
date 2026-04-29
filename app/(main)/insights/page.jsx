@@ -29,7 +29,7 @@ export default function InsightsPage() {
           getAICallsToday(),
         ]);
         setData(insightsData);
-        setLatestInsight(insight?.response || null);
+        setLatestInsight(insight?.parsed_response || insight?.response || null);
         setRemaining(10 - callsToday);
       } catch (err) {
         console.error(err);
@@ -44,22 +44,15 @@ export default function InsightsPage() {
     if (remaining <= 0) return;
     setAiLoading(true);
     try {
-      const { getProfile } = await import("@/app/actions/profile");
-      const { getCheckInHistory } = await import("@/app/actions/checkin");
-      const [profile, recentCheckIns] = await Promise.all([
-        getProfile(),
-        getCheckInHistory(7),
-      ]);
-
       const res = await fetch("/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ profile, recentCheckIns }),
+        body: JSON.stringify({ timeframeDays: days }),
       });
 
       const result = await res.json();
       if (result.advice) {
-        setLatestInsight(result.advice);
+        setLatestInsight(result.structured || result.advice);
         setRemaining(result.remaining ?? remaining - 1);
       } else {
         alert(result.error || "Failed to get insight");
@@ -103,7 +96,7 @@ export default function InsightsPage() {
       </div>
 
       {/* AI Insight Section */}
-      <section className="mb-6 animate-slide-up">
+      <section className="mb-6 animate-slide-up min-w-0">
         <InsightCard insight={latestInsight} loading={loading} />
         <div className="flex items-center justify-between mt-3 px-1">
           <button
@@ -143,9 +136,9 @@ export default function InsightsPage() {
           subtitle="Complete a few check-ins to start seeing your health trends"
         />
       ) : (
-        <div className="flex flex-col gap-5 stagger-children">
+        <div className="flex flex-col gap-5 stagger-children min-w-0 overflow-x-hidden">
           {data.moodData.length > 0 && (
-            <div className="card p-4">
+            <div className="card p-4 min-w-0 overflow-hidden">
               <SimpleChart
                 data={data.moodData}
                 label="Mood Trend"
@@ -157,7 +150,7 @@ export default function InsightsPage() {
           )}
 
           {data.sleepData.length > 0 && (
-            <div className="card p-4">
+            <div className="card p-4 min-w-0 overflow-hidden">
               <SimpleChart
                 data={data.sleepData}
                 label="Sleep Hours"
@@ -169,7 +162,7 @@ export default function InsightsPage() {
           )}
 
           {data.waterData.length > 0 && (
-            <div className="card p-4">
+            <div className="card p-4 min-w-0 overflow-hidden">
               <SimpleChart
                 data={data.waterData}
                 label="Water Intake"
@@ -181,7 +174,7 @@ export default function InsightsPage() {
           )}
 
           {data.symptomFrequency.length > 0 && (
-            <div className="card p-4">
+            <div className="card p-4 min-w-0 overflow-hidden">
               <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-tertiary)" }}>
                 Top Symptoms
               </p>
@@ -210,7 +203,7 @@ export default function InsightsPage() {
           )}
 
           {data.stressData.length > 0 && (
-            <div className="card p-4">
+            <div className="card p-4 min-w-0 overflow-hidden">
               <SimpleChart
                 data={data.stressData}
                 label="Stress Level"

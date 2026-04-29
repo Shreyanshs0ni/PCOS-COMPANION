@@ -37,7 +37,7 @@ export default function TodayPage() {
         ]);
 
         setStreak(streakData?.current_streak || 0);
-        setInsight(insightData?.response || null);
+        setInsight(insightData?.parsed_response || insightData?.response || null);
         setTodayCheckins(checkinsData || []);
       } catch (err) {
         console.error(err);

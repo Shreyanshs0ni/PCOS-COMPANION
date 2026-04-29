@@ -3,7 +3,19 @@
 export default function SimpleChart({ data = [], label, color = "var(--primary)", maxValue, type = "bar" }) {
   if (!data.length) return null;
 
-  const max = maxValue || Math.max(...data.map((d) => d.value), 1);
+  const parsedData = data
+    .map((d) => ({
+      ...d,
+      value: Number.isFinite(Number(d.value)) ? Number(d.value) : 0,
+    }))
+    .filter((d) => Number.isFinite(d.value));
+
+  if (!parsedData.length) return null;
+
+  const max = Math.max(maxValue || Math.max(...parsedData.map((d) => d.value), 1), 1);
+  const safeLabel = (label || "chart").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const gradientId = `grad-${safeLabel}-${type}-${parsedData.length}`;
+  const showEveryNthLabel = parsedData.length > 14 ? Math.ceil(parsedData.length / 10) : 1;
 
   if (type === "bar") {
     return (
@@ -13,26 +25,28 @@ export default function SimpleChart({ data = [], label, color = "var(--primary)"
             {label}
           </p>
         )}
-        <div className="flex items-end gap-2 h-28">
-          {data.map((d, i) => {
-            const height = Math.max((d.value / max) * 100, 4);
+        <div className="flex items-end gap-2 h-28 min-w-0 overflow-hidden">
+          {parsedData.map((d, i) => {
+            const clampedValue = Math.max(Math.min(d.value, max), 0);
+            const height = Math.max((clampedValue / max) * 100, 4);
             return (
-              <div key={i} className="flex flex-col items-center gap-1.5 flex-1">
+              <div key={i} className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
                 <span className="text-[10px] font-bold" style={{ color: "var(--text-secondary)" }}>
-                  {d.value}
+                  {clampedValue}
                 </span>
                 <div className="w-full flex items-end" style={{ height: "80px" }}>
                   <div
                     className="w-full rounded-t-lg transition-all duration-500"
                     style={{
                       height: `${height}%`,
-                      background: `linear-gradient(to top, ${color}, ${color}88)`,
+                      background: color,
+                      opacity: 0.9,
                       animationDelay: `${i * 60}ms`,
                     }}
                   />
                 </div>
                 <span className="text-[9px] font-medium" style={{ color: "var(--text-tertiary)" }}>
-                  {d.date}
+                  {i % showEveryNthLabel === 0 ? d.date : ""}
                 </span>
               </div>
             );
@@ -46,11 +60,11 @@ export default function SimpleChart({ data = [], label, color = "var(--primary)"
   const width = 300;
   const height = 80;
   const padding = 10;
-  const stepX = (width - padding * 2) / Math.max(data.length - 1, 1);
+  const stepX = (width - padding * 2) / Math.max(parsedData.length - 1, 1);
 
-  const points = data.map((d, i) => ({
+  const points = parsedData.map((d, i) => ({
     x: padding + i * stepX,
-    y: height - padding - ((d.value / max) * (height - padding * 2)),
+    y: height - padding - ((Math.max(Math.min(d.value, max), 0) / max) * (height - padding * 2)),
   }));
 
   const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
@@ -63,23 +77,23 @@ export default function SimpleChart({ data = [], label, color = "var(--primary)"
           {label}
         </p>
       )}
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full" style={{ height: "100px" }}>
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full min-w-0" style={{ height: "100px" }}>
         <defs>
-          <linearGradient id={`grad-${label}`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor={color} stopOpacity="0.2" />
             <stop offset="100%" stopColor={color} stopOpacity="0.02" />
           </linearGradient>
         </defs>
-        <path d={areaPath} fill={`url(#grad-${label})`} />
+        <path d={areaPath} fill={`url(#${gradientId})`} />
         <path d={linePath} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         {points.map((p, i) => (
           <circle key={i} cx={p.x} cy={p.y} r="3.5" fill="white" stroke={color} strokeWidth="2" />
         ))}
       </svg>
       <div className="flex justify-between px-1 mt-1">
-        {data.map((d, i) => (
+        {parsedData.map((d, i) => (
           <span key={i} className="text-[9px] font-medium" style={{ color: "var(--text-tertiary)" }}>
-            {d.date}
+            {i % showEveryNthLabel === 0 ? d.date : ""}
           </span>
         ))}
       </div>

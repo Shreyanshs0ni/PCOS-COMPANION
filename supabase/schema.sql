@@ -89,10 +89,14 @@ create table public.ai_insights (
   user_id text references public.profiles(id) on delete cascade not null,
   prompt_context text,
   response text not null,
+  response_json jsonb,
+  cache_key text,
+  timeframe_days integer default 30,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
 create index ai_insights_user_date_idx on public.ai_insights (user_id, created_at desc);
+create index ai_insights_user_cache_idx on public.ai_insights (user_id, cache_key, created_at desc);
 
 -- =============================================
 -- 6. REMINDERS

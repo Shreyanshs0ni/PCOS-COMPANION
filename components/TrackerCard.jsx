@@ -15,7 +15,7 @@ export default function TrackerCard({ icon, label, value, color = "primary", onC
       onClick={onClick}
       className="card card-interactive flex flex-col items-start gap-3 p-4 w-full text-left"
       style={{
-        background: `linear-gradient(135deg, ${c.bg}, var(--bg-card))`,
+        background: `linear-gradient(135deg, color-mix(in srgb, ${c.bg} 72%, var(--glass-bg)), var(--glass-bg))`,
         borderColor: c.border,
       }}
     >

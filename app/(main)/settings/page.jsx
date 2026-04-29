@@ -101,7 +101,7 @@ export default function SettingsPage() {
           icon="👤"
           label="Edit Health Profile"
           value={profile?.onboarding_complete ? "Complete" : "Incomplete"}
-          onClick={() => router.push("/onboarding")}
+          onClick={() => router.push("/settings/profile")}
         />
       </SettingsGroup>
 

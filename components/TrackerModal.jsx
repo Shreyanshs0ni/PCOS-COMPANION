@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 export default function TrackerModal({ title, icon, children, onClose, onSave, saving }) {
   return (
     <>
@@ -20,7 +18,7 @@ export default function TrackerModal({ title, icon, children, onClose, onSave, s
             <button
               onClick={onClose}
               className="w-8 h-8 rounded-full flex items-center justify-center text-sm"
-              style={{ background: "var(--bg-input)", color: "var(--text-tertiary)" }}
+              style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)", color: "var(--text-tertiary)" }}
             >
               ✕
             </button>

@@ -48,6 +48,9 @@
   --shadow-md: 0 4px 12px rgba(45, 43, 61, 0.06), 0 2px 4px rgba(45, 43, 61, 0.04);
   --shadow-lg: 0 12px 32px rgba(45, 43, 61, 0.08), 0 4px 8px rgba(45, 43, 61, 0.04);
   --shadow-glow: 0 0 24px rgba(139, 126, 200, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-blur: 20px;
 
   /* Radii */
   --radius-sm: 10px;
@@ -82,6 +85,9 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.3);
+  --glass-bg: rgba(36, 34, 54, 0.56);
+  --glass-border: rgba(130, 124, 168, 0.3);
+  --glass-blur: 18px;
 
   /* Darken the pastel -50/-100 variants so cards aren't light in dark mode */
   --primary-50: #2A2640;
@@ -149,7 +155,10 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 5% 5%, color-mix(in srgb, var(--primary) 15%, transparent), transparent 45%),
+    radial-gradient(circle at 100% 10%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 42%),
+    var(--bg);
   color: var(--text-primary);
   font-family: var(--font-body);
   line-height: 1.6;
@@ -247,10 +256,12 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Cards */
 .card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   transition: box-shadow var(--transition-base), transform var(--transition-base);
 }
 
@@ -383,8 +394,8 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-full);
   font-size: 13px;
   font-weight: 500;
-  border: 1.5px solid var(--border);
-  background: var(--bg-card);
+  border: 1.5px solid var(--glass-border);
+  background: color-mix(in srgb, var(--glass-bg) 92%, transparent);
   color: var(--text-secondary);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -397,8 +408,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .chip.active {
-  background: var(--primary-50);
-  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 20%, var(--glass-bg));
+  border-color: color-mix(in srgb, var(--primary) 42%, var(--glass-border));
   color: var(--primary-dark);
 }
 
@@ -464,13 +475,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Glass effect */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-sm);
 }
 
 [data-theme="dark"] .glass {
-  background: rgba(26, 24, 40, 0.8);
+  background: var(--glass-bg);
 }
 
 /* Modal overlay */
@@ -491,7 +504,10 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   max-width: 448px;
   margin: 0 auto;
-  background: var(--bg-card);
+  background: color-mix(in srgb, var(--glass-bg) 92%, transparent);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(calc(var(--glass-blur) + 2px));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 2px));
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: var(--shadow-lg);
   z-index: 101;

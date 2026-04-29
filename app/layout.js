@@ -23,9 +23,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" data-scroll-behavior="smooth">
         <body className={`${inter.variable} ${outfit.variable}`} style={{ fontFamily: "var(--font-body)" }}>
-          <main className="max-w-md mx-auto min-h-dvh relative flex flex-col" style={{ background: "var(--bg)" }}>
+          <main className="max-w-md mx-auto min-h-dvh relative flex flex-col overflow-hidden" style={{ background: "var(--bg)" }}>
+            <div className="pointer-events-none absolute -top-24 -left-16 h-56 w-56 rounded-full blur-3xl opacity-40" style={{ background: "var(--primary-100)" }} />
+            <div className="pointer-events-none absolute top-24 -right-20 h-56 w-56 rounded-full blur-3xl opacity-35" style={{ background: "var(--accent-100)" }} />
             {children}
           </main>
         </body>

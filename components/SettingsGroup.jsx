@@ -10,7 +10,7 @@ export default function SettingsGroup({ title, children }) {
           {title}
         </h3>
       )}
-      <div className="card overflow-hidden divide-y" style={{ borderColor: "var(--border-light)" }}>
+      <div className="card overflow-hidden divide-y" style={{ borderColor: "var(--glass-border)" }}>
         {children}
       </div>
     </div>
