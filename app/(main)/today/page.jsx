@@ -69,6 +69,26 @@ export default function TodayPage() {
     { icon: "🏃‍♀️", label: "Exercise", value: exerciseEntry ? `${exerciseEntry.minutes}m` : "Not logged", color: "warm" },
   ];
 
+  const resolveTipOfDay = (insightData) => {
+    if (!insightData) return null;
+    if (typeof insightData === "object") {
+      return insightData?.recommendedActions?.[0] || insightData?.patternsFound?.[0] || null;
+    }
+
+    const text = String(insightData).trim();
+    if (!text) return null;
+    const firstBullet = text
+      .split("\n")
+      .map((line) => line.trim())
+      .find((line) => line.startsWith("-") || line.startsWith("•") || /^\d+\./.test(line));
+    if (firstBullet) return firstBullet.replace(/^[-•]\s*/, "").replace(/^\d+\.\s*/, "");
+
+    const firstSentence = text.split(/(?<=[.!?])\s+/)[0];
+    return firstSentence || text;
+  };
+
+  const tipOfDay = resolveTipOfDay(insight);
+
   return (
     <div className="px-5 pt-6 pb-4">
       {/* Header */}
@@ -91,7 +111,7 @@ export default function TodayPage() {
 
       {/* AI Insight */}
       <section className="mb-5 animate-slide-up" style={{ animationDelay: "60ms" }}>
-        <InsightCard insight={insight} loading={loading} />
+        <InsightCard insight={tipOfDay} loading={loading} mode="tip" />
       </section>
 
       {/* Quick Check-in Grid */}
@@ -123,13 +143,13 @@ export default function TodayPage() {
       </section>
 
       {/* Guide Section */}
-      <section className="mb-4 animate-slide-up" style={{ animationDelay: "180ms" }}>
+      <section className="mb-6 animate-slide-up" style={{ animationDelay: "180ms" }}>
         <div
           className="card p-4 flex items-center gap-4"
           style={{ background: "linear-gradient(135deg, var(--mint-50), var(--bg-card))" }}
         >
-          <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0"
             style={{ background: "var(--mint-100)" }}
           >
             📘
@@ -142,21 +162,6 @@ export default function TodayPage() {
               Start by completing today's check-in to build your health profile
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* Reminders Placeholder */}
-      <section className="animate-slide-up" style={{ animationDelay: "240ms" }}>
-        <h2 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: "var(--text-tertiary)" }}>
-          Reminders
-        </h2>
-        <div
-          className="card p-4 flex items-center justify-center"
-          style={{ borderStyle: "dashed" }}
-        >
-          <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-            No active reminders — set them up in Settings
-          </p>
         </div>
       </section>
     </div>

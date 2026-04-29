@@ -2,7 +2,7 @@
 
 import { Sparkles } from "lucide-react";
 
-export default function InsightCard({ insight, loading }) {
+export default function InsightCard({ insight, loading, mode = "full" }) {
   const structuredInsight = insight && typeof insight === "object" ? insight : null;
   const plainInsight = typeof insight === "string" ? insight : null;
 
@@ -50,7 +50,9 @@ export default function InsightCard({ insight, loading }) {
         </h3>
       </div>
 
-      {structuredInsight ? (
+      {mode === "tip" ? (
+        <TipOfDayContent structuredInsight={structuredInsight} plainInsight={plainInsight} />
+      ) : structuredInsight ? (
         <div className="relative z-10 flex flex-col gap-3">
           <InsightSection title="Patterns Found" items={structuredInsight.patternsFound} />
           <InsightSection title="Likely Drivers" items={structuredInsight.likelyDrivers} />
@@ -74,7 +76,7 @@ export default function InsightCard({ insight, loading }) {
 function InsightSection({ title, items = [] }) {
   if (!items?.length) return null;
   return (
-    <div>
+    <div className="rounded-xl p-3" style={{ background: "color-mix(in srgb, var(--bg-card) 55%, transparent)", border: "1px solid var(--primary-100)" }}>
       <p className="text-[11px] font-bold uppercase tracking-wider mb-1" style={{ color: "var(--text-secondary)" }}>
         {title}
       </p>
@@ -85,6 +87,20 @@ function InsightSection({ title, items = [] }) {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+function TipOfDayContent({ structuredInsight, plainInsight }) {
+  const tip = structuredInsight?.recommendedActions?.[0] || plainInsight || "Complete a few check-ins to unlock your daily tip.";
+  return (
+    <div className="relative z-10 rounded-xl p-3" style={{ background: "color-mix(in srgb, var(--bg-card) 55%, transparent)", border: "1px solid var(--primary-100)" }}>
+      <p className="text-[11px] font-bold uppercase tracking-wider mb-1" style={{ color: "var(--text-secondary)" }}>
+        Tip of the Day
+      </p>
+      <p className="text-sm leading-relaxed" style={{ color: "var(--text-primary)" }}>
+        {tip}
+      </p>
     </div>
   );
 }

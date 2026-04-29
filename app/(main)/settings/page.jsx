@@ -83,8 +83,8 @@ export default function SettingsPage() {
 
   return (
     <div className="px-5 pt-6 pb-4">
-      <header className="mb-5 animate-slide-down flex items-start justify-between">
-        <div>
+      <header className="mb-5 animate-slide-down flex justify-between">
+        <div className="min-w-0">
           <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}>
             Settings
           </h1>
@@ -92,7 +92,9 @@ export default function SettingsPage() {
             Customize your experience
           </p>
         </div>
-        <UserButton afterSignOutUrl="/sign-in" />
+        <div className="pt-0.5 shrink-0">
+          <UserButton afterSignOutUrl="/sign-in" />
+        </div>
       </header>
 
       {/* Health Profile */}
@@ -100,7 +102,7 @@ export default function SettingsPage() {
         <SettingsItem
           icon="👤"
           label="Edit Health Profile"
-          value={profile?.onboarding_complete ? "Complete" : "Incomplete"}
+          value={profile?.onboarding_complete ? "Edit" : "Incomplete"}
           onClick={() => router.push("/settings/profile")}
         />
       </SettingsGroup>

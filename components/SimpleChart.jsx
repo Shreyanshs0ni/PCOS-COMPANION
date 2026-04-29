@@ -30,10 +30,7 @@ export default function SimpleChart({ data = [], label, color = "var(--primary)"
             const clampedValue = Math.max(Math.min(d.value, max), 0);
             const height = Math.max((clampedValue / max) * 100, 4);
             return (
-              <div key={i} className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
-                <span className="text-[10px] font-bold" style={{ color: "var(--text-secondary)" }}>
-                  {clampedValue}
-                </span>
+              <div key={i} className="flex flex-col items-center gap-1 flex-1 min-w-0">
                 <div className="w-full flex items-end" style={{ height: "80px" }}>
                   <div
                     className="w-full rounded-t-lg transition-all duration-500"
@@ -45,6 +42,9 @@ export default function SimpleChart({ data = [], label, color = "var(--primary)"
                     }}
                   />
                 </div>
+                <span className="text-[10px] font-bold leading-none mt-1" style={{ color: "var(--text-secondary)" }}>
+                  {clampedValue}
+                </span>
                 <span className="text-[9px] font-medium" style={{ color: "var(--text-tertiary)" }}>
                   {i % showEveryNthLabel === 0 ? d.date : ""}
                 </span>
